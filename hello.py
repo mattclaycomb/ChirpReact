@@ -9,7 +9,7 @@ import uuid
 
 from tornado.options import define, options
 
-define("port", default=8888, help="run on the given port", type=int)
+#define("port", default=8888, help="run on the given port", type=int)
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -66,8 +66,8 @@ class AuthLogoutHandler(BaseHandler):
         self.clear_cookie("user")
         self.write("You are now logged out")
 
+application = Application()
 if __name__ == "__main__":
-    tornado.options.parse_command_line()
-    app = Application()
-    app.listen(options.port)
+    #tornado.options.parse_command_line()
+    application.listen(8888)
     tornado.ioloop.IOLoop.instance().start()
