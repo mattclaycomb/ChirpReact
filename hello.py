@@ -66,11 +66,8 @@ class AuthLogoutHandler(BaseHandler):
         self.clear_cookie("user")
         self.write("You are now logged out")
 
-def main():
+if __name__ == "__main__":
     tornado.options.parse_command_line()
     app = Application()
     app.listen(options.port)
     tornado.ioloop.IOLoop.instance().start()
-
-if __name__ == "__main__":
-    main()
