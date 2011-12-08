@@ -1,1 +1,25 @@
-Nothing here yet.
+ChirpReact
+=============
+
+There are 4 services necessary to run ChirpReact
+* RabbitMQ - A message broker.
+* Redis - A key-value store.
+* ChirpReact Twitter Consumer
+* ChirpReact Web Server
+
+ChirpReact Twitter Consumer is built in Ruby. ChirpReact Twitter Consumer uses
+EventMachine for asynchronous IO.
+
+ChirpReact Web Server is built in python. It uses the Tornado web framework
+(http://tornadoweb.org). Tornado websockets support is used to create a bidirectional
+between the browser and server. The server
+
+Installing ChirpReact Web Install
+1. Install python and pip
+2. pip install -r requirements.txt
+3. python chirpreact_web_server.py 
+
+Installing ChirpReact Twitter Consumer
+1. Intall Ruby and bundler
+2. bundle install
+3. ruby chirpreact_twitter_consumer.rb

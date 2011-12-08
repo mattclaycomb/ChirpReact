@@ -1,0 +1,85 @@
+<div data-dojo-type="dijit.layout.TabContainer" data-dojo-props="tabPosition: 'top'" nested="true">
+    <div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title: 'Related Links'">
+        <p>
+        Yahoo Finance:
+        <a href="http://finance.yahoo.com/q?s={{symbol}}&ql=1">http://finance.yahoo.com/q?s={{symbol}}&ql=1</a>
+        </p>
+        <p>
+        Google Finance:
+        <a href="http://www.google.com/finance?q={{symbol}}">http://www.google.com/finance?q={{symbol}}</a>
+        </p>
+    </div>
+    <div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title: 'TradeKing Information'">
+        <table>
+        {% if False %}
+        {% for key in results['quotes']['instrumentquote']['quote']['extendedquote'] %}
+        <tr>
+            <td>{{ key }}</td>
+            <td>{{ results['quotes']['instrumentquote']['quote']['extendedquote'][key] }}</td>
+        </tr>
+        {% end %}
+        {% end %}
+        <tr>
+            <td>Company:</td>
+            <td>{{ results['quotes']['instrumentquote']['instrument']['desc'] }}</td>
+        </tr>
+        <tr>
+            <td>Symbol:</td>
+            <td>{{ results['quotes']['instrumentquote']['instrument']['sym'] }}</td>
+        </tr>
+        <tr>
+            <td>Exchange:</td>
+            <td>{{ results['quotes']['instrumentquote']['instrument']['exch'] }}</td>
+        </tr>
+        <tr>
+            <td>Last Price:</td>
+            <td>{{ results['quotes']['instrumentquote']['quote']['lastprice'] }}</td>
+        </tr>
+        <tr>
+            <td>Ask Price:</td>
+            <td>{{ results['quotes']['instrumentquote']['quote']['askprice'] }}</td>
+        </tr>
+        <tr>
+            <td>Bid Price:</td>
+            <td>{{ results['quotes']['instrumentquote']['quote']['bidprice'] }}</td>
+        </tr>
+
+        <tr>
+            <td>Low:</td>
+            <td>{{ results['quotes']['instrumentquote']['quote']['extendedquote']['lowprice'] }}</td>
+        </tr>
+        <tr>
+            <td>High:</td>
+            <td>{{ results['quotes']['instrumentquote']['quote']['extendedquote']['highprice'] }}</td>
+        </tr>
+        <tr>
+            <td>Low (52 weeks):</td>
+            <td>{{ results['quotes']['instrumentquote']['quote']['extendedquote']['low52price'] }}</td>
+        </tr>
+        <tr>
+            <td>High (52 weeks):</td>
+            <td>{{ results['quotes']['instrumentquote']['quote']['extendedquote']['high52price'] }}</td>
+        </tr>
+        <tr>
+            <td>Previous Close:</td>
+            <td>{{ results['quotes']['instrumentquote']['quote']['extendedquote']['prevclose'] }}</td>
+        </tr>
+        <tr>
+            <td>Open price:</td>
+            <td>{{ results['quotes']['instrumentquote']['quote']['extendedquote']['openprice'] }}</td>
+        </tr>
+        <tr>
+            <td>P/E Ratio:</td>
+            <td>{{ results['quotes']['instrumentquote']['quote']['extendedquote']['priceearningsratio'] }}</td>
+        </tr>
+        <tr>
+            <td>Volume:</td>
+            <td>{{ results['quotes']['instrumentquote']['quote']['extendedquote']['volume'] }}</td>
+        </tr>
+        <tr>
+            <td>Session Volume:</td>
+            <td>{{ results['quotes']['instrumentquote']['quote']['extendedquote']['sessionvolume'] }}</td>
+        </tr>
+        </table>
+    </div>
+</div>

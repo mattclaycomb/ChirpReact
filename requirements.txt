@@ -2,3 +2,5 @@ gunicorn
 pycurl
 tornado
 wsgiref
+pika
+redis
