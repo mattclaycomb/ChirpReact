@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/claro/claro.css" media="screen">
-        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/grid/resources/Grid.css" media="screen">
-        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/grid/resources/claroGrid.css" media="screen">
-        <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js"
+        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.7.0/dijit/themes/claro/claro.css" media="screen">
+        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.7.0/dojox/grid/resources/Grid.css" media="screen">
+        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.7.0/dojox/grid/resources/claroGrid.css" media="screen">
+        <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.0/dojo/dojo.js"
         data-dojo-config="isDebug: true,parseOnLoad: true"></script>
     
         <title>ChirpReact</title>
@@ -28,6 +28,12 @@
         </style>
     </head>
     <script>
+/* Dojo doesn't expect WebSocket to be named MozWebSocket,
+this is likely to break in the future */
+if (typeof MozWebSocket != "undefined") {
+    WebSocket = MozWebSocket
+}
+
 dojo.require("dojox.socket");
 dojo.require('dojo.store.Memory');
 dojo.require('dojo.store.Observable');
@@ -52,30 +58,6 @@ dojo.require("dijit.form.RadioButton");
 dojo.require("dijit.form.NumberSpinner");
 
 dojo.ready(function(){
-    var getSymbol = function() {
-        dojo.xhrGet({
-            url: "/storm",
-            load: function(data) {
-                var dataList = dojo.fromJson(data);
-                for (var i=0; i<dataList.length; i++) {
-                    store.put(dataList[i]);
-                }
-                setTimeout(function() { getSymbol() }, 0);
-            }
-        });
-    }
-
-/*
-    var data = [
-        { id: "AAPL", value: 20},
-        { id: "GOOG", value: 16},
-        { id: "MSFT", value: 11},
-        { id: "IBM", value: 18},
-        { id: "AMZN", value: 18},
-    ]
-    */
-
-
     dojo.xhrGet({
         url: "/initial_symbols",
         load: function(data) {
@@ -84,15 +66,13 @@ dojo.ready(function(){
                 data: dojo.fromJson(data),
             }));
             buildStockChart();
-            //getSymbol();
-            something();
+            connectToSymbolSocket();
         }
     });
-    //store.put(dojo.fromJson("{id: 7, value: 10, site: 2}"));
 });
 
-function something() {
-    var socket = dojox.socket("/symbolws");
+function connectToSymbolSocket() {
+    var socket = dojox.socket.WebSocket({ url:"/symbolws" }, false);
     socket.on("message", function(event) {
         global_event = event
         var msg = dojo.fromJson(event.data);
@@ -108,7 +88,6 @@ function something() {
 function buildStockChart() {
     var chart1 = new dojox.charting.Chart('chart1');
     chart1.addAxis('x',{
-        //labels: [{value: 1, text: "a"},{value: 2, text: "b"},{value: 3, text: "c"}],
         labelFunc: function(index) {
             if (store.query({})[index - 1] != undefined)
                 return store.query({})[index - 1].id
@@ -197,12 +176,21 @@ function setupQuickTradeForm() {
     }, "placeOrder");
 }
 dojo.addOnLoad(setupQuickTradeForm);
+
+/*
+The Order History object store is horribly broken,
+it uses the symbol as a unique key, which obviously isn't unique.
+Not a big problem considering a successful order probably won't ever
+occur anyways.
+*/
 function setupOrderHistoryGrid() {
     orderHistoryStore = dojo.store.Observable(new dojo.store.Memory({
         idProperty: "symbol",
         data: []
     }));
 
+    /* Some data being manually added to show what kind of data that would
+       show up in the table */
     orderHistoryStore.add({symbol: "MSFT", price: "$20", quantity: "10"})
     orderHistoryStore.add({symbol: "AAPL", price: "$19", quantity: "14"})
 
@@ -243,10 +231,8 @@ dojo.addOnLoad(setupOrderHistoryGrid);
                         <label>Quantity:</label>
                         <div id="quantitySpinner"></div>
                         <br><br>
-                        <!-- <input type="radio" name="buyOrSell" value="buy" checked id="buyRadio"> -->
                         <input type="radio" id="buyRadio">
                         <label for="buyRadio">Buy</label><br>
-                        <!-- <input type="radio" name="buyOrSell" value="sell" id="sellRadio"> -->
                         <input type="radio" id="sellRadio">
                         <label for="sellRadio">Sell</label><br>
                         <br>

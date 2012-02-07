@@ -14,6 +14,7 @@ from tornado.httputil import url_concat
 from tornado.util import bytes_type, b
 from tornado.auth import OAuthMixin
 
+# Full OAuth wasn't implemented because it needs special permission from TradeKing
 class TradeKingMixin(OAuthMixin):
     _OAUTH_REQUEST_TOKEN_URL = "http://developers.tradeking.com/oauth/request_token"
     _OAUTH_ACCESS_TOKEN_URL = "http://developers.tradeking.com/oauth/access_token"

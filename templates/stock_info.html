@@ -8,6 +8,14 @@
         Google Finance:
         <a href="http://www.google.com/finance?q={{symbol}}">http://www.google.com/finance?q={{symbol}}</a>
         </p>
+        <h3>Yahoo News Headlines</h3>
+        {% for item in rss_feed.getElementsByTagName('item') %}
+            <p>
+                <a href="{{ item.getElementsByTagName('link')[0].childNodes[0].nodeValue}}">
+                    {{ item.getElementsByTagName('title')[0].childNodes[0].nodeValue }}
+                </a>
+            </p>
+        {% end %}
     </div>
     <div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title: 'TradeKing Information'">
         <table>

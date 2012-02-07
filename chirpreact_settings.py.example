@@ -1,0 +1,11 @@
+settings = dict(
+    cookie_secret="",
+    twitter_consumer_key="",
+    twitter_consumer_secret="",
+    tradeking_consumer_key="",
+    tradeking_consumer_secret="",
+    tradeking_access_token= {
+        'key': "",
+        'secret': ""
+    }
+)
