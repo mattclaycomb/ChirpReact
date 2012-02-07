@@ -1,6 +1,5 @@
 ChirpReact
-=============
-
+==========
 
 ChirpReact was an assignment for a finance class I took Fall 2011.
 
@@ -19,6 +18,7 @@ connection between the browser and server.
 
 
 Installing ChirpReact Web Server
+--------------------------------
 1. Install python and pip
     * Tested with Python 2.7.1, it recommended to create a python virtualenv to get pip.
     (http://pypi.python.org/pypi/virtualenv)
@@ -28,6 +28,7 @@ Installing ChirpReact Web Server
 3. python chirpreact_web_server.py 
 
 Installing ChirpReact Twitter Consumer
+--------------------------------------
 1. Intall Ruby and bundler
     * Tested with Ruby 1.8.7p249. bundler can be installed with:
     gem install bundler
